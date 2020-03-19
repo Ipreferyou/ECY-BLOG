@@ -1,0 +1,9 @@
+.yjbk{
+	z-index:1;
+　　width:200px;
+　　height:200px;
+　　background:#09F;
+　　-moz-border-radius:13px;/*8px是圆角的角度，值越大则圆角效果越明显，如果修改此项，请修改以下两项的值，使之相同*/
+　　-webkit-border-radius:13px;
+　　border-radius:13px;
+}
