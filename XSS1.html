@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8"> 
+
+
+
+<link rel="Stylesheet" href="ZT.css" type="text/css"/>
+<link rel="Stylesheet" href="BKd1.css" type="text/css"/>
+
+
+</head>
+
+
+<body
+background="D1.jpg"
+    style=" background-repeat:no-repeat ;
+    background-size:100% 100%;
+    background-attachment: fixed;
+    margin:0px ">
+
+<div class="zt1">
+<div>XSS学习笔记(一)</div>
+</div>
+<div class="bkd1">
+<div class="zt2">
+<div style="text-align:center;font-size:2em;">XSS概念</div>
+<div>思路，网页前端有问题，允许用户插入自定义的HTML/JS</div>
+<div>分类</div>
+<div>①反射型--前端->后端->前端</div>
+<div>②存储型--前端->后端->数据库->前端</div>
+<div>③DOM型--前端</div>
+<br/>
+<div>1.反射型XSS</div>
+<div>比如有一个网站，当你设置了一个可以弹发cookie的URL，并使其他用户将其触发。你就可以通过beef等工具拿到用户cookie并进行登录。</div>
+<br/>
+<div>2.存储型XSS</div>
+<div>比如一个博客网站，里面有可以发表文章的板块，当文章发表后，势必会存储再数据库里面。如果发表的“文章”是恶意代码，当其他用户再次进入含有恶意代码的页面时，就有可能让浏览器将其解析执行。</div>
+<br/>
+<div>3.DOM型</div>
+<div>个人感觉与反射型有很大相似之处（实际上是属于反射型的一种，通过URL传入参数控制触发）。</div>
+<br/>
+<div>PS：什么是DOM</div>
+<div>网上给的定义：DOM是网页中的用来表示文档中对象的标准模型，通过JavaScript可以对网页中的所有DOM对象进行操作，是由万维网联盟W3C组织制定的标准编程接口。</div>
+<br/>
+<br/>
+<div style="text-align:center;font-size:2em;">XSS练习</div>
+<br/>
+<div style="text-align:center;">先贴出一个XSS练习平台链接</div>
+<div style="text-align:center;"><a href="http://test.ctf8.com/" style="text-decoration:none;color:PaleVioletRed" target="_blank">http://test.ctf8.com(点击跳转)</a></div>
+<br/>
+<div style="text-align:center;">再贴出一个大佬的WriteUp</div>
+<div style="text-align:center;"><a href="https://blog.csdn.net/qq_43573131/article/details/103297535" style="text-decoration:none;color:PaleVioletRed" target="_blank">WriteUp(点击跳转)</a></div>
+<br/>
+<br/>
+<div style="text-align:center;font-size:2em;">XSS芝士QWQ</div>
+<br/>
+<div>
+1.&lt;script&gt;talert("XSS")&lt;/script&gt;--->输入进行测试
+</pre>
+</div>
+<br/>
+<div>2.XSS不一定在URL里面</div>
+<br/>
+<div>3.闭合标签:比如</div>
+<div style="text-align: center;">
+<pre>
+&lt;input name="xxx1" value="xxx2"&gt;
+</pre>
+</div>
+<div>已知xxx2处可以更改，那么可以尝试构造这类payload</div>
+<div style="text-align: center;">
+<pre>
+">&lt;script>alert(1);&lt;/script>
+</pre>
+</div>
+<div>原理:将XXX2改为payload时,我们可以发现源码变为</div>
+<div style="text-align: center;">
+<pre>
+&lt;input name="xxx1" value="">&lt;script>alert(1);&lt;/script>">
+</pre>
+</div>
+<div>可知input标签已经被闭合,后面的script部分就可能被执行</div>
+<br/>
+<div>4.各种绕过姿势</div>
+<div>
+<pre>①对恶意标签或者函数的过滤，可以尝试大小写绕过，比如&lt;ScrIpT>;</pre>
+</div>
+<div>②闭合标签（上文有提到）</div>
+<div>③JS事件绕过，例如onclick和oninput（注意仍然需要考虑闭合，详细请移步上文贴出的WriteUp网址）</div>
+<div>④JS伪协议：（网上定义）将javascript代码添加在伪协议说明符javascript:后的URL中，从而执行，大概长这个样子</div>
+<div style="text-align: center;">
+<pre>
+&lt;a href=javascript:alert(1);>12345&lt;/a>
+</pre>
+</div>
+<div>⑤绕过尖括号（这个就一言难尽了，还是问度娘吧）</div>
+<div style="text-align: center;">......</div>
+<div style="text-align: center;font-size: 2em;color:Tomato">IT IS A LONG WAY TO LEARN</div>
+</div>
+</div>
+</body>
+</html>
+

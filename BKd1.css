@@ -1,0 +1,18 @@
+.bkd1
+{
+        z-index:-1;
+        
+        width: auto;
+        
+        height: auto;
+        
+        background-color:rgba(255,255,255,0.4);
+        
+        border: 1px solid #333;
+       
+        border-radius: 10px;
+
+        Margin:17vw;
+
+        margin-top:2vh;
+}
