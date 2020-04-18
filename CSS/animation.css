@@ -1,0 +1,68 @@
+@-webkit-keyframes r1{
+	0%{clip-path: polygon(50% 0%,50% 0,50% 0,50% 0,50% 0);}
+	
+	25%{clip-path: polygon(50% 0%,100% 0,100% 50%,100% 50%,100% 50%);}
+	
+	50%{clip-path: polygon(50% 0%,100% 0,100% 100%,50% 100%,50% 100%);}
+	
+	75%{clip-path: polygon(50% 0%,100% 0,100% 100%,0 100%,0 50%);}
+	
+	100%{clip-path: polygon(50% 0%,100% 0,100% 100%,0 100%,0 0);}
+}
+
+@keyframes r1{
+	0%{clip-path: polygon(50% 0%,50% 0,50% 0,50% 0,50% 0);}
+	
+	25%{clip-path: polygon(50% 0%,100% 0,100% 50%,100% 50%,100% 50%);}
+	
+	50%{clip-path: polygon(50% 0%,100% 0,100% 100%,50% 100%,50% 100%);}
+	
+	75%{clip-path: polygon(50% 0%,100% 0,100% 100%,0 100%,0 50%);}
+	
+	100%{clip-path: polygon(50% 0%,100% 0,100% 100%,0 100%,0 0);}
+}
+
+
+
+@keyframes z1{
+	0%{opacity: 0;}
+	20%{opacity: 0;}
+	20.1%{opacity: 1;clip-path: polygon(0 0,0 0,0 0);}
+	
+	30%{clip-path: polygon(0 0,100% 0,100% 2%);}
+	40%{clip-path: polygon(100% 0,100% 100%,98% 100%);}
+	50%{clip-path: polygon(100% 100%,0 100%,0 98%);}
+	60%{clip-path: polygon(0 100%,0 0%,2% 0);}
+	
+	60.001%{clip-path: polygon(0 0,0 0,0 0,0 0);}
+	70%{clip-path: polygon(0 0,100% 0,100% 2%,100% 2%);}
+	80%{clip-path: polygon(0 0,100% 0,100% 100%,100% 100%);}
+	90%{clip-path: polygon(0 0,100% 0,100% 100%,0 100%);}
+	
+	100%{clip-path: polygon(0 0,100% 0,100% 100%,0 100%,0 0);}
+}
+@-webkit-keyframes z1{
+	0%{opacity: 0;}
+	20%{opacity: 0;}
+	20.1%{opacity: 1;clip-path: polygon(0 0,0 0,0 0);}
+	
+	30%{clip-path: polygon(0 0,100% 0,100% 2%);}
+	40%{clip-path: polygon(100% 0,100% 100%,98% 100%);}
+	50%{clip-path: polygon(100% 100%,0 100%,0 98%);}
+	60%{clip-path: polygon(0 100%,0 0%,2% 0);}
+	
+	60.001%{clip-path: polygon(0 0,0 0,0 0,0 0);}
+	70%{clip-path: polygon(0 0,100% 0,100% 2%,100% 2%);}
+	80%{clip-path: polygon(0 0,100% 0,100% 100%,100% 100%);}
+	90%{clip-path: polygon(0 0,100% 0,100% 100%,0 100%);}
+	
+	100%{clip-path: polygon(0 0,100% 0,100% 100%,0 100%,0 0);}
+}
+
+
+@keyframes z2{
+	/* 20/24=0.833 */
+	0%{opacity: 0;}
+	83.5%{opacity: 0;transform: rotate(0deg);}
+	100%{transform: rotate(45deg);}
+}
